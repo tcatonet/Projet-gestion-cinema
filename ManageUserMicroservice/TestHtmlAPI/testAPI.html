@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Ma première page HTML</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+</head>
+<body>
+<h1>Il s'agit d'un exemple de HTML!</h1>
+
+<h4 id="account_name" ></h4>
+
+<div>
+    <p id="name"></p>
+    <p id="email"></p>
+</div>
+
+
+<div>
+    <input id="update_user"
+           type="button"
+           value="Update user">
+
+    <input type="text" id="update_user_name" name="name" required
+           minlength="4" maxlength="50" size="50">
+</div>
+
+
+<div>
+
+    <input type="text" id="update_user_password" name="password" required
+           minlength="4" maxlength="50" size="50">
+</div>
+
+
+<div>
+    <input  id="createUser"
+            type="button"
+            value="Create User">
+</div>
+
+
+<div>
+    <input  id="getUserInfos"
+            type="button"
+            value="Get user infos">
+</div>
+
+<div>
+    <input  id="createAdmin"
+            type="button"
+            value="Create Admin">
+</div>
+
+<div>
+    <input  id="getUsers"
+            type="button"
+            value="GetUsers">
+</div>
+
+<div>
+    <input  id="deleteUser"
+            type="button"
+            value="Delete User">
+</div>
+
+
+<div>
+    <input  id="connexionUser"
+            type="button"
+            value="Connexion">
+</div>
+
+<div>
+    <input  id="stats"
+            type="button"
+            value="stats">
+</div>
+
+
+<div>
+    <input  id="adminWacther"
+            type="button"
+            value="admin Wacther">
+</div>
+
+
+<div>
+    <input  id="sendMail"
+            type="button"
+            value="forgot password ">
+</div>
+
+</body>
+</html>
+
+
+
+<script type="text/javascript">
+
+    key="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTYyMDMyNzEzOH0.dbUt2Oo3zBqTtzV2UUNoMKw_OkN2bjdsmgLtLV_yvl2k83iu4U1pvkV1qlVGern3wx-ZSF-MzArcpSKgC40tXA"
+    username=""
+    userpassword=""
+
+
+
+    $('#connexionUser').click(function(){
+
+
+        var name =$('input[name=name]').val();
+        var password = $('input[name=password]').val()
+
+
+        data = {
+            "username":name,
+            "password":password
+        }
+
+        json_data = JSON.stringify(data);
+
+        $.ajax({
+            url : 'http://localhost:4000/login',
+            type: 'POST',
+            crossDomain: true,
+            data:json_data,
+            dataType : 'text',
+            contentType: "application/json",
+
+            success: function(data) {
+                json_data = JSON.parse(data);
+                key=json_data["body"]["token"][0]
+                username=json_data["body"]["username"][0];
+                userpassword=json_data["body"]["password"][0];
+
+                console.log(key);
+
+            },
+            error: function(data) {
+                console.log("FALSE");
+
+
+            },
+        });
+
+    });
+
+
+
+
+
+    $('#stats').click(function(){
+
+        data = {
+            "username":"admin",
+            "password":"admintest"
+        }
+
+        json_data = JSON.stringify(data);
+
+        $.ajax({
+            url : 'http://localhost:4000/user/stats',
+            type: 'GET',
+            crossDomain: true,
+            dataType : 'text',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+            success: function(data) {
+                console.log(data);
+
+            },
+            error: function(data) {
+                console.log("FALSE");
+
+
+            },
+        });
+
+    });
+
+
+
+    $('#adminWacther').click(function(){
+
+        data = {
+            "username":"admin",
+            "password":"admintest"
+        }
+
+        json_data = JSON.stringify(data);
+
+        $.ajax({
+            url : 'http://localhost:4000/admin/watcher',
+            type: 'GET',
+            crossDomain: true,
+            dataType : 'text',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+            success: function(data) {
+                console.log(data);
+
+            },
+            error: function(data) {
+                console.log("FALSE");
+
+
+            },
+        });
+
+    });
+
+
+
+
+
+
+
+    $('#createUser').click(function(){
+
+        data = {
+            "newUsername" : $('input[name=name]').val(),
+            "newPassword" : $('input[name=password]').val()
+        }
+
+        json_data = JSON.stringify(data);
+
+        $.ajax({
+            url : 'http://localhost:4000/create',
+            crossDomain: true,
+            type: 'POST',
+            data:json_data,
+            contentType: "application/json",
+
+            success: function(data) {
+                message=data["body"]["message"][0]
+
+
+                console.log(message)
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+
+
+
+
+
+    $('#update_user').click(function(){
+
+
+        var newname =$('input[name=name]').val();
+        var newpassword = $('input[name=password]').val()
+
+
+        data = {
+            "newUsername":newname,
+            "newPassword":newpassword,
+            "currentUsername":username,
+            "currentPassword":userpassword,
+
+        }
+
+        json_data = JSON.stringify(data);
+
+        $.ajax({
+            url : 'http://localhost:4000/user/update',
+            type: 'POST',
+            crossDomain: true,
+            data:json_data,
+            dataType: 'json',
+            headers: {'Authorization': 'Bearer '+key},
+            contentType: "application/json",
+
+            success: function(data) {
+                userUpdate=data["body"]["message"][0]
+                username=data["body"]["username"][0]
+                userpassword=data["body"]["password"][0]
+
+                console.log(userUpdate)
+
+                },
+
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+
+
+
+
+
+
+
+    $('#createAdmin').click(function(){
+
+        data = {
+            "newUsername" : $('input[name=name]').val(),
+            "newPassword" : $('input[name=password]').val()
+        }
+
+        json_data = JSON.stringify(data);
+
+        $.ajax({
+            url : 'http://localhost:4000/admin/create',
+            crossDomain: true,
+            type: 'POST',
+            data:json_data,
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                message=data["body"]["message"][0]
+              //  username=data["body"]["username"][0]
+               // userpassword=data["body"]["password"][0]
+                console.log(message)
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+
+
+    $('#getUsers').click(function(){
+
+        $.ajax({
+            url : 'http://localhost:4000/admin/users/get',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                userList=data["body"]["usersList"][0]
+                console.log(userList)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+
+
+    $('#getUserInfos').click(function(){
+
+        data = {
+            "currentUsername" : username,
+            "currentPassword" : userpassword,
+        }
+
+        json_data = JSON.stringify(data);
+
+        $.ajax({
+            url : 'http://localhost:4000/user/get',
+            crossDomain: true,
+            type: 'POST',
+            data:json_data,
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                userInfos=data["body"]["userInfos"][0]
+                console.log(userInfos)
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+
+    });
+
+
+
+    $('#sendMail').click(function(){
+
+        data = {
+            "newUsername" : globalnewname,
+        }
+
+        json_data = JSON.stringify(data);
+
+        $.ajax({
+            url : 'http://localhost:4000/forget',
+            crossDomain: true,
+            type: 'POST',
+            data:json_data,
+            contentType: "application/json",
+
+            success: function(data) {
+                console.log(data)
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+
+
+
+
+</script>
