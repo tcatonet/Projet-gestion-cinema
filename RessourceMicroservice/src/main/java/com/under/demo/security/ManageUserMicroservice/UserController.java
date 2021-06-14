@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
 
-@RestController
+@RestController()
 public class UserController {
 
     public UserController(UserService userService) {
@@ -21,31 +21,31 @@ public class UserController {
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/user/update/name")
+    @PostMapping("/resource/user/update/name")
     public void updateName(@RequestBody UserUpdateNameDTO userUpdateNameDTO) {
         userService.updateName();
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/user/update/mail")
+    @PostMapping("/resource/user/update/mail")
     public void updateMail(@RequestBody UserUpdateEmailDTO userUpdateEmailDTO) {
         userService.updateEmail();
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/user/update/password")
+    @PostMapping("/resource/user/update/password")
     public void updatePassword(@RequestBody UserUpdatePasswordDTO userUpdatePasswordDTO) {
         userService.updatePassword();
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/user/detele")
+    @PostMapping("/resource/user/detele")
     public void deletePassword() {
         userService.deleteUser();
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/user/get/user")
+    @PostMapping("/resource/user/get/user")
     public void getUser() {
         userService.getInfosUser();
     }
