@@ -12,13 +12,12 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 @RestController
+@RequestMapping("/api/admin")
 public class AdminController {
 
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }
-
-
 
     private final AdminService adminService;
     private static final Logger LOGGER = Logger.getLogger("LOG: ");
@@ -26,16 +25,7 @@ public class AdminController {
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/admin/watcher")
-    public ResponseEntity adminWatch() {
-        return ResponseEntity.ok(Map.of(
-                "view", "admin"
-        ));
-    }
-
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/admin/users/get")
+    @PostMapping("/users/get")
     public ResponseEntity getListUsers() {
 
         String usersList = adminService.getUsers();
@@ -54,7 +44,7 @@ public class AdminController {
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/admin/create")
+    @PostMapping("/create")
     public ResponseEntity<?> createAdmin(@RequestBody CreateAccountRequest request) {
         if ("none".equalsIgnoreCase(request.getNewUsername())) {
             throw new IllegalNameException("Illegal name for none");
