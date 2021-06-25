@@ -6,10 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class StartManageUserMicroservice {
+public class SecurityApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(StartManageUserMicroservice.class, args);
+        SpringApplication.run(SecurityApplication.class, args);
+
+
 
     }
 

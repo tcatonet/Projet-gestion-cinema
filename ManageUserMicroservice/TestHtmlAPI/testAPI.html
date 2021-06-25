@@ -36,6 +36,13 @@
 
 <div>
 
+    <input type="text" id="update_user_password" name="email" required
+           minlength="4" maxlength="50" size="50">
+</div>
+
+
+<div>
+
     <input type="text" id="update_user_password" name="password" required
            minlength="4" maxlength="50" size="50">
 </div>
@@ -48,11 +55,6 @@
 </div>
 
 
-<div>
-    <input  id="getUserInfos"
-            type="button"
-            value="Get user infos">
-</div>
 
 <div>
     <input  id="createAdmin"
@@ -60,17 +62,13 @@
             value="Create Admin">
 </div>
 
+
 <div>
     <input  id="getUsers"
             type="button"
             value="GetUsers">
 </div>
 
-<div>
-    <input  id="deleteUser"
-            type="button"
-            value="Delete User">
-</div>
 
 
 <div>
@@ -79,25 +77,64 @@
             value="Connexion">
 </div>
 
+
+
 <div>
-    <input  id="stats"
+    <input  id="depositCapital"
             type="button"
-            value="stats">
+            value="deposit capital">
 </div>
 
 
 <div>
-    <input  id="adminWacther"
+    <input  id="withdrawaCapital"
             type="button"
-            value="admin Wacther">
+            value="withdrawal capital">
+</div>
+
+<div>
+    <input  id="getCapital"
+            type="button"
+            value="get Capital">
 </div>
 
 
 <div>
-    <input  id="sendMail"
+    <input  id="getName"
             type="button"
-            value="forgot password ">
+            value="get Name">
 </div>
+
+
+<div>
+    <input  id="updatePassword"
+            type="button"
+            value="update Password">
+</div>
+
+
+<div>
+    <input  id="getEmail"
+            type="button"
+            value="get Email">
+</div>
+
+
+<div>
+    <input  id="updateEmail"
+            type="button"
+            value="update Email">
+</div>
+
+
+
+<div>
+
+    <input type="text" id="update_user_capital" name="capital" required
+           minlength="4" maxlength="50" size="50">
+</div>
+
+
 
 </body>
 </html>
@@ -118,6 +155,8 @@
         var name =$('input[name=name]').val();
         var password = $('input[name=password]').val()
 
+        console.log(name)
+        console.log(password)
 
         data = {
             "username":name,
@@ -137,8 +176,6 @@
             success: function(data) {
                 json_data = JSON.parse(data);
                 key=json_data["body"]["token"][0]
-                username=json_data["body"]["username"][0];
-                userpassword=json_data["body"]["password"][0];
 
                 console.log(key);
 
@@ -155,26 +192,62 @@
 
 
 
-
-    $('#stats').click(function(){
-
-        data = {
-            "username":"admin",
-            "password":"admintest"
-        }
+    
+    $('#depositCapital').click(function(){
+    
+	 data = {
+		    "amount":$('input[name=capital]').val(),
+		}
+		
 
         json_data = JSON.stringify(data);
 
         $.ajax({
-            url : 'http://localhost:4000/user/stats',
-            type: 'GET',
+            url : 'http://localhost:4000/user/capital/deposit',
+            type: 'POST',
             crossDomain: true,
+            data:json_data,
             dataType : 'text',
             contentType: "application/json",
             headers: {'Authorization': 'Bearer '+key},
 
             success: function(data) {
-                console.log(data);
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log("FALSE");
+
+
+            },
+        });
+
+    });
+    
+    
+ 
+
+    
+    $('#withdrawaCapital').click(function(){
+    
+	 data = {
+		    "amount":$('input[name=capital]').val(),
+		}
+		
+
+        json_data = JSON.stringify(data);
+
+        $.ajax({
+            url : 'http://localhost:4000/user/capital/withdrawal',
+            type: 'POST',
+            crossDomain: true,
+            data:json_data,
+            dataType : 'text',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+            success: function(data) {
+                console.log(data)
 
             },
             error: function(data) {
@@ -188,25 +261,26 @@
 
 
 
-    $('#adminWacther').click(function(){
-
-        data = {
-            "username":"admin",
-            "password":"admintest"
-        }
+    $('#getCapital').click(function(){
+    
+	 data = {
+		    "amount":$('input[name=capital]').val(),
+		}
+		
 
         json_data = JSON.stringify(data);
 
         $.ajax({
-            url : 'http://localhost:4000/admin/watcher',
-            type: 'GET',
+            url : 'http://localhost:4000/user/capital/get',
+            type: 'POST',
             crossDomain: true,
+            data:json_data,
             dataType : 'text',
             contentType: "application/json",
             headers: {'Authorization': 'Bearer '+key},
 
             success: function(data) {
-                console.log(data);
+                console.log(data)
 
             },
             error: function(data) {
@@ -217,9 +291,6 @@
         });
 
     });
-
-
-
 
 
 
@@ -227,8 +298,9 @@
     $('#createUser').click(function(){
 
         data = {
-            "newUsername" : $('input[name=name]').val(),
-            "newPassword" : $('input[name=password]').val()
+            "name" : $('input[name=name]').val(),
+            "email" : $('input[name=email]').val(),
+            "password" : $('input[name=password]').val()
         }
 
         json_data = JSON.stringify(data);
@@ -241,8 +313,7 @@
             contentType: "application/json",
 
             success: function(data) {
-                message=data["body"]["message"][0]
-
+                message=data["body"]["msg"][0]
 
                 console.log(message)
             },
@@ -257,48 +328,6 @@
 
 
 
-    $('#update_user').click(function(){
-
-
-        var newname =$('input[name=name]').val();
-        var newpassword = $('input[name=password]').val()
-
-
-        data = {
-            "newUsername":newname,
-            "newPassword":newpassword,
-            "currentUsername":username,
-            "currentPassword":userpassword,
-
-        }
-
-        json_data = JSON.stringify(data);
-
-        $.ajax({
-            url : 'http://localhost:4000/user/update',
-            type: 'POST',
-            crossDomain: true,
-            data:json_data,
-            dataType: 'json',
-            headers: {'Authorization': 'Bearer '+key},
-            contentType: "application/json",
-
-            success: function(data) {
-                userUpdate=data["body"]["message"][0]
-                username=data["body"]["username"][0]
-                userpassword=data["body"]["password"][0]
-
-                console.log(userUpdate)
-
-                },
-
-            error: function(data) {
-                console.log(data)
-            },
-        });
-
-    });
-
 
 
 
@@ -308,8 +337,9 @@
     $('#createAdmin').click(function(){
 
         data = {
-            "newUsername" : $('input[name=name]').val(),
-            "newPassword" : $('input[name=password]').val()
+            "name" : $('input[name=name]').val(),
+            "email" : $('input[name=email]').val(),
+            "password" : $('input[name=password]').val()
         }
 
         json_data = JSON.stringify(data);
@@ -324,10 +354,7 @@
 
 
             success: function(data) {
-                message=data["body"]["message"][0]
-              //  username=data["body"]["username"][0]
-               // userpassword=data["body"]["password"][0]
-                console.log(message)
+                console.log(data)
             },
             error: function(data) {
                 console.log(data)
@@ -335,6 +362,7 @@
         });
 
     });
+
 
 
     $('#getUsers').click(function(){
@@ -348,8 +376,7 @@
 
 
             success: function(data) {
-                userList=data["body"]["usersList"][0]
-                console.log(userList)
+                console.log(data)
 
             },
             error: function(data) {
@@ -360,17 +387,38 @@
     });
 
 
-    $('#getUserInfos').click(function(){
 
-        data = {
-            "currentUsername" : username,
-            "currentPassword" : userpassword,
+    $('#getName').click(function(){
+
+        $.ajax({
+            url : 'http://localhost:4000/user/name/get',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+
+
+    $('#updatePassword').click(function(){
+    
+	data = {
+            "password" : $('input[name=password]').val()
         }
 
         json_data = JSON.stringify(data);
-
         $.ajax({
-            url : 'http://localhost:4000/user/get',
+            url : 'http://localhost:4000/user/password/update',
             crossDomain: true,
             type: 'POST',
             data:json_data,
@@ -379,36 +427,63 @@
 
 
             success: function(data) {
-                userInfos=data["body"]["userInfos"][0]
-                console.log(userInfos)
+                console.log(data)
+
             },
             error: function(data) {
                 console.log(data)
             },
         });
 
-
     });
-
-
-
-    $('#sendMail').click(function(){
-
-        data = {
-            "newUsername" : globalnewname,
+    
+    
+    
+    $('#updateEmail').click(function(){
+    
+	data = {
+            "email" : $('input[name=email]').val()
         }
 
         json_data = JSON.stringify(data);
-
+        
         $.ajax({
-            url : 'http://localhost:4000/forget',
+            url : 'http://localhost:4000/user/email/update',
             crossDomain: true,
             type: 'POST',
             data:json_data,
             contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
 
             success: function(data) {
                 console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+    
+    
+    
+    $('#getEmail').click(function(){
+    
+
+
+        $.ajax({
+            url : 'http://localhost:4000/user/email/get',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
             },
             error: function(data) {
                 console.log(data)
