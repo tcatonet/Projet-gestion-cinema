@@ -1,8 +1,16 @@
 port des micro service:
+
 ManageUserMicroservice: 4000
 BusinessLogicMicroservice:5000
-AdminMicroservice:7000
-ResourceMicroservice: 4040
+RecieveDataMicroservice: 6000
+InfosAppMicroservice:7000
+
+
+base postgres:
+		addresse: localhost:5432/userdb
+		username=tcatonet
+		password=postgres
+
 
 utiliser maven
 
