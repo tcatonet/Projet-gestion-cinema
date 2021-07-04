@@ -63,13 +63,6 @@
 </div>
 
 
-<div>
-    <input  id="getUsers"
-            type="button"
-            value="GetUsers">
-</div>
-
-
 
 <div>
     <input  id="connexionUser"
@@ -166,7 +159,7 @@
         json_data = JSON.stringify(data);
 
         $.ajax({
-            url : 'http://localhost:4000/api/login',
+            url : 'http://localhost:4000/login',
             type: 'POST',
             crossDomain: true,
             data:json_data,
@@ -203,7 +196,7 @@
         json_data = JSON.stringify(data);
 
         $.ajax({
-            url : 'http://localhost:4000/api/user/capital/deposit',
+            url : 'http://localhost:4000/user/capital/deposit',
             type: 'POST',
             crossDomain: true,
             data:json_data,
@@ -238,7 +231,7 @@
         json_data = JSON.stringify(data);
 
         $.ajax({
-            url : 'http://localhost:4000/api/user/capital/withdrawal',
+            url : 'http://localhost:4000/user/capital/withdrawal',
             type: 'POST',
             crossDomain: true,
             data:json_data,
@@ -271,7 +264,7 @@
         json_data = JSON.stringify(data);
 
         $.ajax({
-            url : 'http://localhost:4000/api/user/capital/get',
+            url : 'http://localhost:4000/user/capital/get',
             type: 'POST',
             crossDomain: true,
             data:json_data,
@@ -306,7 +299,7 @@
         json_data = JSON.stringify(data);
 
         $.ajax({
-            url : 'http://localhost:4000/api/create',
+            url : 'http://localhost:4000/create',
             crossDomain: true,
             type: 'POST',
             data:json_data,
@@ -345,7 +338,7 @@
         json_data = JSON.stringify(data);
 
         $.ajax({
-            url : 'http://localhost:4000/api/admin/create',
+            url : 'http://localhost:4000/admin/create',
             crossDomain: true,
             type: 'POST',
             data:json_data,
@@ -365,33 +358,13 @@
 
 
 
-    $('#getUsers').click(function(){
-
-        $.ajax({
-            url : 'http://localhost:4000/api/admin/users/get',
-            crossDomain: true,
-            type: 'POST',
-            contentType: "application/json",
-            headers: {'Authorization': 'Bearer '+key},
-
-
-            success: function(data) {
-                console.log(data)
-
-            },
-            error: function(data) {
-                console.log(data)
-            },
-        });
-
-    });
 
 
 
     $('#getName').click(function(){
 
         $.ajax({
-            url : 'http://localhost:4000/api/user/name/get',
+            url : 'http://localhost:4000/user/name/get',
             crossDomain: true,
             type: 'POST',
             contentType: "application/json",
@@ -418,7 +391,7 @@
 
         json_data = JSON.stringify(data);
         $.ajax({
-            url : 'http://localhost:4000/api/user/password/update',
+            url : 'http://localhost:4000/user/password/update',
             crossDomain: true,
             type: 'POST',
             data:json_data,
@@ -448,7 +421,7 @@
         json_data = JSON.stringify(data);
         
         $.ajax({
-            url : 'http://localhost:4000/api/user/email/update',
+            url : 'http://localhost:4000/user/email/update',
             crossDomain: true,
             type: 'POST',
             data:json_data,
@@ -474,7 +447,7 @@
 
 
         $.ajax({
-            url : 'http://localhost:4000/api/user/email/get',
+            url : 'http://localhost:4000/user/email/get',
             crossDomain: true,
             type: 'POST',
             contentType: "application/json",

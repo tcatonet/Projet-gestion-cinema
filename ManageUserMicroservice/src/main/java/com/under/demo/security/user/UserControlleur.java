@@ -1,9 +1,6 @@
 package com.under.demo.security.user;
 
-import com.under.demo.security.user.DTO.CreateAccountDTO;
-import com.under.demo.security.user.DTO.UpdateCapitalDTO;
-import com.under.demo.security.user.DTO.UpdateEmailDTO;
-import com.under.demo.security.user.DTO.UpdatePasswordDTO;
+import com.under.demo.security.user.DTO.*;
 import org.jdom.IllegalNameException;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
@@ -41,9 +38,7 @@ public class UserControlleur {
 
 
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        String response = userService.depositUserCapital(username, updateCapitalDTO.getAmount());
+        String response = userService.depositUserCapital(updateCapitalDTO.getName(), updateCapitalDTO.getAmount());
 
         LOGGER.info(response);
 
@@ -59,9 +54,8 @@ public class UserControlleur {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/capital/withdrawal")
     public ResponseEntity withdrawalUserCapital(@RequestBody UpdateCapitalDTO updateCapitalDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        String response = userService.withdrawalUserCapital(username, updateCapitalDTO.getAmount());
+
+        String response = userService.withdrawalUserCapital(updateCapitalDTO.getName(), updateCapitalDTO.getAmount());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("msg", response);
@@ -75,10 +69,10 @@ public class UserControlleur {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/capital/get")
-    public ResponseEntity getUserCapital() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        float response = userService.getUserCapital(username);
+    public ResponseEntity getUserCapital(@RequestBody UserDTO userDTO) {
+
+
+        float response = userService.getUserCapital(userDTO.getName());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("msg", String.valueOf(response));
@@ -91,12 +85,11 @@ public class UserControlleur {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/name/get")
-    public ResponseEntity getUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String response = authentication.getName();
+    public ResponseEntity getUserName(@RequestBody UserDTO userDTO) {
+
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
+        map.add("msg", userDTO.getName());
         HttpHeaders request_ = new HttpHeaders();
         request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
@@ -110,9 +103,7 @@ public class UserControlleur {
             throw new IllegalNameException("Illegal name for none");
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        String response = userService.updateUserPassword(username, updatePasswordDTO.getPassword());
+        String response = userService.updateUserPassword(updatePasswordDTO.getName(), updatePasswordDTO.getPassword());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("msg", response);
@@ -124,10 +115,9 @@ public class UserControlleur {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/email/get")
-    public ResponseEntity getUserEmail() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        String response = userService.getUserEmail(username);
+    public ResponseEntity getUserEmail(@RequestBody UserDTO userDTO) {
+
+        String response = userService.getUserEmail(userDTO.getName());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("msg", response);
@@ -143,9 +133,8 @@ public class UserControlleur {
         if ("none".equalsIgnoreCase(updateEmailDTO.getEmail())) {
             throw new IllegalNameException("Illegal name for none");
         }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        String response = userService.updateUserEmail(username, updateEmailDTO.getEmail());
+
+        String response = userService.updateUserEmail(updateEmailDTO.getName(), updateEmailDTO.getEmail());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("msg", response);

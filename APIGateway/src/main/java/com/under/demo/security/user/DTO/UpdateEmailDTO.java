@@ -6,7 +6,5 @@ import lombok.Data;
 
 public class UpdateEmailDTO {
     private String email;
-    private String name;
-
 
 }

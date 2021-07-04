@@ -130,6 +130,9 @@ public class UserDAO {
 
 
     public String createAdmin(String name, String email, String password) {
+        List<String> roles = new ArrayList();
+        roles.add("USER");
+        roles.add("ADMIN");
 
         String currentPassword = passwordEncoder.encode(password);
         User user = new User(name, email, currentPassword);
@@ -137,12 +140,9 @@ public class UserDAO {
 
         User userCreate = userRepository.findByName(user.getName());
         long id = userCreate.getId();
-        LOGGER.info(userCreate.getPassword());
-        LOGGER.info(String.valueOf(id));
         Roles role = new Roles(id, "USER");
+
         rolesRepository.save(role);
-        Roles role2 = new Roles(id, "ADMIN");
-        rolesRepository.save(role2);
 
         String msg = "Admin create";
         return msg;

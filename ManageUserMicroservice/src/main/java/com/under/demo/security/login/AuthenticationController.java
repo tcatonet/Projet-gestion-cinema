@@ -38,10 +38,10 @@ public class AuthenticationController extends HttpServlet{
 
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) {
+    public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
 
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getName(), loginDTO.getPassword());
 
         Authentication authentication = authenticationManager.getObject().authenticate(authenticationToken);
         String token = tokenProvider.createToken(authentication);
@@ -53,7 +53,7 @@ public class AuthenticationController extends HttpServlet{
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 
         map.add("token", token);
-
+        LOGGER.info(token);
         HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
 
         return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
@@ -66,6 +66,7 @@ public class AuthenticationController extends HttpServlet{
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/create")
     public ResponseEntity createUser(@RequestBody CreateAccountDTO request) {
+
         if ("none".equalsIgnoreCase(request.getName())) {
             throw new IllegalNameException("Illegal name for none");
         }

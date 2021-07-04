@@ -50,10 +50,6 @@ public class User {
 
         }
 
-        public long getId() {
-            return this.id;
-         }
-
         @Override
         public int hashCode() {
             int hash = 7;

@@ -5,6 +5,5 @@ import lombok.Data;
 @Data
 
 public class UpdatePasswordDTO {
-    private String name;
     private String password;
 }
