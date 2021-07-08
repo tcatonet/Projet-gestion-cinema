@@ -19,7 +19,6 @@ public class CronSchedule {
     @Scheduled(cron = "0 20 1 * * MON-THU")
     public void doSomething() {
         LOGGER.info("doSomething");
-        System.out.println("Do some thing");
 
 
     }

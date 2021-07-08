@@ -1,10 +1,9 @@
 package com.under.demo.security.user;
 
-import com.under.demo.security.user.DTO.CreateAccountDTO;
-import com.under.demo.security.user.DTO.UpdateCapitalDTO;
-import com.under.demo.security.user.DTO.UpdateEmailDTO;
-import com.under.demo.security.user.DTO.UpdatePasswordDTO;
-import org.jdom.IllegalNameException;
+import com.under.demo.security.user.DTO.DashboardDTO;
+import com.under.demo.security.user.DTO.RessourceDTO;
+import com.under.demo.security.user.DTO.TradeDTO;
+import com.under.demo.security.user.DTO.UserDTO;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,39 +11,27 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/user")
-public class UserControlleur {
+@RequestMapping("/dashboard")
+public class DashboardControlleur {
 
-    public UserControlleur(UserService userService) {
-        this.userService = userService;
+    public DashboardControlleur(DashboardService dashboardService) {
+        this.dashboardService = dashboardService;
     }
 
-    @GetMapping
-    public ResponseEntity hello() {
-        return ResponseEntity.ok("Hello world");
-    }
 
-    private final UserService userService;
+    private final DashboardService dashboardService;
     private static final Logger LOGGER = Logger.getLogger("LOG: ");
 
 
 
-
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/capital/deposit")
-    public ResponseEntity depositUserCapital(@RequestBody UpdateCapitalDTO updateCapitalDTO) {
+    @PostMapping("/trade/open")
+    public ResponseEntity openTrade(@RequestBody TradeDTO tradeDTO) {
 
-
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        String response = userService.depositUserCapital(username, updateCapitalDTO.getAmount());
-
+        String response = dashboardService.openTrade(tradeDTO.getId());
         LOGGER.info(response);
 
         HttpHeaders request_ = new HttpHeaders();
@@ -57,11 +44,9 @@ public class UserControlleur {
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/capital/withdrawal")
-    public ResponseEntity withdrawalUserCapital(@RequestBody UpdateCapitalDTO updateCapitalDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        String response = userService.withdrawalUserCapital(username, updateCapitalDTO.getAmount());
+    @PostMapping("/trade/close")
+    public ResponseEntity closeTrade(@RequestBody TradeDTO tradeDTO) {
+        String response = dashboardService.closeTrade(tradeDTO.getId());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("msg", response);
@@ -74,11 +59,10 @@ public class UserControlleur {
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/capital/get")
-    public ResponseEntity getUserCapital() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        float response = userService.getUserCapital(username);
+    @PostMapping("/create")
+    public ResponseEntity dashboardCreate(@RequestBody DashboardDTO dashboardDTO) {
+
+        String response = dashboardService.dashboardCreate(dashboardDTO.getUserName(), dashboardDTO.getName(), dashboardDTO.getRessource());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("msg", String.valueOf(response));
@@ -90,65 +74,56 @@ public class UserControlleur {
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/name/get")
-    public ResponseEntity getUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String response = authentication.getName();
+    @PostMapping("/ressource/price/get")
+    public ResponseEntity getRessource() {
+        String response = dashboardService.getRessource();
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
+        map.add("msg", String.valueOf(response));
         HttpHeaders request_ = new HttpHeaders();
         request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
         return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/password/update")
-    public ResponseEntity updateUserPassword(@RequestBody UpdatePasswordDTO updatePasswordDTO) {
-        if ("none".equalsIgnoreCase(updatePasswordDTO.getPassword())) {
-            throw new IllegalNameException("Illegal name for none");
-        }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        String response = userService.updateUserPassword(username, updatePasswordDTO.getPassword());
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/trade/get")
+    public ResponseEntity getTrade(@RequestBody TradeDTO tradeDTO) {
+        String response = dashboardService.getTrade(tradeDTO.getId());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
+        map.add("msg", String.valueOf(response));
         HttpHeaders request_ = new HttpHeaders();
         request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
         return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
     }
 
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/email/get")
-    public ResponseEntity getUserEmail() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        String response = userService.getUserEmail(username);
+    @PostMapping("/get")
+    public ResponseEntity getDashboard(@RequestBody UserDTO userDTO) {
+
+        String response = dashboardService.getDashboard(userDTO.getName());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
+        map.add("msg", String.valueOf(response));
         HttpHeaders request_ = new HttpHeaders();
         request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
         return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
     }
 
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/email/update")
-    public ResponseEntity updateUserEmail(@RequestBody UpdateEmailDTO updateEmailDTO) {
-        if ("none".equalsIgnoreCase(updateEmailDTO.getEmail())) {
-            throw new IllegalNameException("Illegal name for none");
-        }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        String response = userService.updateUserEmail(username, updateEmailDTO.getEmail());
+    @PostMapping("/ressource/create")
+    public ResponseEntity createRessource(@RequestBody RessourceDTO ressourceDTO) {
+        String response = dashboardService.createRessource(ressourceDTO.getName());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
+        map.add("msg", String.valueOf(response));
         HttpHeaders request_ = new HttpHeaders();
         request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);

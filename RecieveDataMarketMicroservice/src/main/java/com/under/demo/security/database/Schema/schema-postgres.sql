@@ -1,13 +1,15 @@
-DROP TABLE IF EXISTS UserModele;
+create table Resource_model
+(
+    id       serial
+        constraint trade_model_pkey
+            primary key,
 
-CREATE TABLE UserModele (id serial PRIMARY KEY,
-                name VARCHAR(255),
-                email VARCHAR(255),
-                password VARCHAR(255),
-                roles VARCHAR(255),
-                capital float
+    name varchar(255) not null,
 
-                 );
+    value float,
+
+    time_update DATE NOT NULL DEFAULT CURRENT_DATE,
+);
 
 
 

@@ -8,7 +8,7 @@ import java.sql.Date;
 
 @Embeddable
 @Entity
-@Table(name = "Resource")
+@Table(name = "Resource_model")
 @Data
 @Accessors(chain = true)
 public class Resource {

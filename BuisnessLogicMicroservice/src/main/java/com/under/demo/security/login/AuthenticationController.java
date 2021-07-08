@@ -1,8 +1,7 @@
 package com.under.demo.security.login;
 
 import com.under.demo.security.security.TokenProvider;
-import com.under.demo.security.user.DTO.CreateAccountDTO;
-import com.under.demo.security.user.UserService;
+import com.under.demo.security.user.DashboardService;
 import org.jdom.IllegalNameException;
 import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,24 +23,23 @@ public class AuthenticationController extends HttpServlet{
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManager;
     private static final Logger LOGGER = Logger.getLogger("LOG: ");
-    private final UserService userService;
+    private final DashboardService dashboardService;
 
 
 
 
     public AuthenticationController(TokenProvider tokenProvider,
-                                    AuthenticationManagerBuilder authenticationManager, UserService userService) {
+                                    AuthenticationManagerBuilder authenticationManager, DashboardService dashboardService) {
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
-        this.userService = userService;
+        this.dashboardService = dashboardService;
     }
 
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) {
+    public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
 
-
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getName(), loginDTO.getPassword());
 
         Authentication authentication = authenticationManager.getObject().authenticate(authenticationToken);
         String token = tokenProvider.createToken(authentication);
@@ -59,32 +57,6 @@ public class AuthenticationController extends HttpServlet{
         return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
     }
 
-
-
-
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/create")
-    public ResponseEntity createUser(@RequestBody CreateAccountDTO request) {
-        if ("none".equalsIgnoreCase(request.getName())) {
-            throw new IllegalNameException("Illegal name for none");
-        }
-        if ("none".equalsIgnoreCase(request.getEmail())) {
-            throw new IllegalNameException("Illegal name for none");
-        }
-        if ("none".equalsIgnoreCase(request.getPassword())) {
-            throw new IllegalNameException("Illegal name for none");
-        }
-        String response = userService.createUser(request.getName(), request.getPassword(), request.getEmail());
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
-        HttpHeaders request_ = new HttpHeaders();
-        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
-
-        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
-    }
 
 
 }

@@ -15,6 +15,7 @@ public class WriteCurrentTimeSchedule {
     private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
     private static final Logger LOGGER = Logger.getLogger("LOG: ");
     private final CronDAO cronDAO;
+    private float value;
 
     public WriteCurrentTimeSchedule(CronDAO cronDAO) {
         this.cronDAO = cronDAO;
@@ -31,7 +32,7 @@ public class WriteCurrentTimeSchedule {
         String nowString = df.format(now);
         LOGGER.info("doSomething");
         String name = "Oil barril";
-        float value = (float) 1.02;
+        value = (float) (value + 0.1);
         cronDAO.updateValueRessource(name, value);
         System.out.println("Now is: "+ nowString);
 

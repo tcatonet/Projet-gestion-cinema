@@ -12,12 +12,19 @@
 
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+    <distributionManagement>
+        <repository>
+            <id>test</id>
+            <url> http://localhost</url>
+        </repository>
+    </distributionManagement>
+
     <groupId>com.under.demo</groupId>
     <artifactId>security</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>security</name>
     <description>Demo project for Spring Boot</description>
-
 
 
     <properties>
@@ -121,7 +128,11 @@
 
 
     <repositories>
-
+        <repository>
+            <id>spring-repo</id>
+            <name>Spring Repository</name>
+            <url>https://repo.spring.io/release</url>
+        </repository>
     </repositories>
 
 

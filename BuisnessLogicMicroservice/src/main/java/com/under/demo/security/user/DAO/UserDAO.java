@@ -3,14 +3,17 @@ package com.under.demo.security.user.DAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.under.demo.security.database.Modele.Roles;
+import com.under.demo.security.database.Modele.User;
 import com.under.demo.security.user.Repository.RolesRepository;
 import com.under.demo.security.user.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.under.demo.security.database.Modele.User;
+import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Repository
@@ -130,9 +133,6 @@ public class UserDAO {
 
 
     public String createAdmin(String name, String email, String password) {
-        List<String> roles = new ArrayList();
-        roles.add("USER");
-        roles.add("ADMIN");
 
         String currentPassword = passwordEncoder.encode(password);
         User user = new User(name, email, currentPassword);
@@ -140,9 +140,12 @@ public class UserDAO {
 
         User userCreate = userRepository.findByName(user.getName());
         long id = userCreate.getId();
+        LOGGER.info(userCreate.getPassword());
+        LOGGER.info(String.valueOf(id));
         Roles role = new Roles(id, "USER");
-
         rolesRepository.save(role);
+        Roles role2 = new Roles(id, "ADMIN");
+        rolesRepository.save(role2);
 
         String msg = "Admin create";
         return msg;
