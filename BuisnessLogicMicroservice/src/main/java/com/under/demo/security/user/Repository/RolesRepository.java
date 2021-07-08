@@ -1,0 +1,14 @@
+package com.under.demo.security.user.Repository;
+
+import com.under.demo.security.database.Modele.Roles;
+import com.under.demo.security.database.Modele.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+
+@Repository
+public interface RolesRepository  extends JpaRepository<Roles, Long> {
+
+}
