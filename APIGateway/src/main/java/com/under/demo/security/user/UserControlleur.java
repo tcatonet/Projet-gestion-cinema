@@ -43,7 +43,6 @@ public class UserControlleur extends HttpServlet {
 
     SessionToken sessionTokenManageUser;
     SessionToken sessionTokenBuisnessLogic;
-    Map<String, String> env = System.getenv();
     private final String LOGIN_SYSTEME = "systeme";
     private final String PASSWORD_SYSTEME = "systeme";
     private final String BASE_URL =   "http://localhost:4040";    //System.getenv("URL_MANAGE_USER"); ;
@@ -385,13 +384,15 @@ public class UserControlleur extends HttpServlet {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/dashboard/trade/open")
     public ResponseEntity openTrade(@RequestBody TradeDTO tradeDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
         String endpoint = "/dashboard/trade/open";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add(AUTHORIZATION, "Bearer " + sessionTokenBuisnessLogic.getToken());
 
-        String requestJson = "{\"Id\":\""+tradeDTO.getId()+"\"}";
+        String requestJson = "{\"name\":\""+username+"\"}";
         HttpEntity<String> requestToSend = new HttpEntity<String>(requestJson, headers);
         ResponseEntity<String> message = restTemplate.postForEntity( BASE_URL2+endpoint, requestToSend , String.class );
 
@@ -407,6 +408,9 @@ public class UserControlleur extends HttpServlet {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/dashboard/trade/close")
     public ResponseEntity closeTrade(@RequestBody TradeDTO tradeDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        LOGGER.info(String.valueOf(tradeDTO.getId()));
         String endpoint = "/dashboard/trade/close";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

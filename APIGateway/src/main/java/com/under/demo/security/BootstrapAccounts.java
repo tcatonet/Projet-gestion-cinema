@@ -22,7 +22,4 @@ class BootstrapAccounts {
         this.passwordEncoder = passwordEncoder;
     }
 
-
-
-
 }

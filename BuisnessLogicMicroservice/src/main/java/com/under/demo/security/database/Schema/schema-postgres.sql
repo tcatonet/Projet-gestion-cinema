@@ -3,13 +3,13 @@
 
 
 
-
-
-create table trade_model
+create table User_trades
 (
     id       serial
         constraint trade_model_pkey
             primary key,
+
+    user_id_trades int,
 
     close_date DATE NOT NULL,
 
@@ -19,10 +19,11 @@ create table trade_model
         constraint user_model_email_key
             unique,
 
-    dashboard_id int not null,
-    CONSTRAINT fk_dashboard
-        FOREIGN KEY(dashboard_id)
-            REFERENCES dashboard_model(id)
+
+    CONSTRAINT fk_user_trade
+        FOREIGN KEY(user_id_trades)
+            REFERENCES user_model(id)
+
 );
 
 

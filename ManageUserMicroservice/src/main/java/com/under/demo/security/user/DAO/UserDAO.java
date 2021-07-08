@@ -35,7 +35,6 @@ public class UserDAO {
     public String createUser(String username, String password, String email)   {
         List<String> roles = new ArrayList();
         roles.add("USER");
-        LOGGER.info("TESTETTSS: " + password);
         String encodePassword = passwordEncoder.encode(password);
         User user = new User(username, email, encodePassword);
         userRepository.save(user);

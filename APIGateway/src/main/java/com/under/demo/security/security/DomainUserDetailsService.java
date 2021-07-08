@@ -7,11 +7,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.logging.Logger;
+
 @Component
 public class DomainUserDetailsService implements UserDetailsService {
 
     private final UserDAO userDAO;
-
+    private static final Logger LOGGER = Logger.getLogger("LOG: ");
     public DomainUserDetailsService(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
@@ -20,7 +22,7 @@ public class DomainUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User appUser = userDAO.findBy(username);
-
+        LOGGER.info(username);
         return org.springframework.security.core.userdetails.User.builder()
                 .username(username)
                 .password(appUser.getPassword())

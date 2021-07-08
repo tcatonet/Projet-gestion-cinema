@@ -30,7 +30,7 @@ class BootstrapAccounts {
 
     @EventListener
     void inStartuo(ApplicationReadyEvent event){
-       /* List<String> roles = new ArrayList();
+        List<String> roles = new ArrayList();
         roles.add("SYSTEME");
         String encodePassword = passwordEncoder.encode("systeme");
         User user = new User("systeme", "contact@myapp.fr", encodePassword);
@@ -39,6 +39,6 @@ class BootstrapAccounts {
         long id = userCreate.getId();
         Roles role = new Roles(id, "SYSTEME");
         rolesRepository.save(role);
-        String msg = "User create";*/
+        String msg = "User create";
     }
 }

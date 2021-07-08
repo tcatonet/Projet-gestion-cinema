@@ -1,5 +1,8 @@
 package com.under.demo.security.user;
 
+import com.under.demo.security.database.Modele.Dashboard;
+import com.under.demo.security.database.Modele.Resource;
+import com.under.demo.security.database.Modele.Trade;
 import com.under.demo.security.user.DTO.DashboardDTO;
 import com.under.demo.security.user.DTO.RessourceDTO;
 import com.under.demo.security.user.DTO.TradeDTO;
@@ -11,6 +14,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -29,9 +33,9 @@ public class DashboardControlleur {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/trade/open")
-    public ResponseEntity openTrade(@RequestBody TradeDTO tradeDTO) {
+    public ResponseEntity openTrade(@RequestBody UserDTO userDTO) {
 
-        String response = dashboardService.openTrade(tradeDTO.getId());
+        String response = dashboardService.openTrade(userDTO.getName());
         LOGGER.info(response);
 
         HttpHeaders request_ = new HttpHeaders();
@@ -76,7 +80,7 @@ public class DashboardControlleur {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/ressource/price/get")
     public ResponseEntity getRessource() {
-        String response = dashboardService.getRessource();
+        List<Resource> response = dashboardService.getRessource();
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("msg", String.valueOf(response));
@@ -91,7 +95,7 @@ public class DashboardControlleur {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/trade/get")
     public ResponseEntity getTrade(@RequestBody TradeDTO tradeDTO) {
-        String response = dashboardService.getTrade(tradeDTO.getId());
+        List<Trade> response = dashboardService.getTrade(tradeDTO.getId());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("msg", String.valueOf(response));
@@ -106,7 +110,7 @@ public class DashboardControlleur {
     @PostMapping("/get")
     public ResponseEntity getDashboard(@RequestBody UserDTO userDTO) {
 
-        String response = dashboardService.getDashboard(userDTO.getName());
+        List<Dashboard>  response = dashboardService.getDashboard(userDTO.getName());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("msg", String.valueOf(response));

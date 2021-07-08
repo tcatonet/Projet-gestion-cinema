@@ -1,7 +1,6 @@
 create table Resource_model
 (
     id       serial
-        constraint trade_model_pkey
             primary key,
 
     name varchar(255) not null,

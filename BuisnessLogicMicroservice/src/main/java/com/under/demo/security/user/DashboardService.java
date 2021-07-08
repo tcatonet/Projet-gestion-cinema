@@ -1,11 +1,16 @@
 package com.under.demo.security.user;
 
+import com.under.demo.security.database.Modele.Dashboard;
+import com.under.demo.security.database.Modele.Resource;
+import com.under.demo.security.database.Modele.Trade;
 import com.under.demo.security.database.Modele.User;
 import com.under.demo.security.user.DAO.DashboardDAO;
 import com.under.demo.security.user.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -14,8 +19,8 @@ public class DashboardService implements IUserService {
     private final DashboardDAO dashboardDAO;
     UserRepository userRepository;
 
-    public String openTrade(int dashboardID) {
-        return dashboardDAO.openTrade(dashboardID);
+    public String openTrade(String name) {
+        return dashboardDAO.openTrade(name);
     }
 
     public String createRessource(String name) {
@@ -31,16 +36,16 @@ public class DashboardService implements IUserService {
         return dashboardDAO.dashboardCreate(userName, name, ressource);
     }
 
-    public String getRessource() {
+    public List<Resource> getRessource() {
         return dashboardDAO.getRessource();
     }
 
 
-    public String getDashboard(String username) {
+    public List<Dashboard>  getDashboard(String username) {
         return dashboardDAO.getDashboard(username);
     }
 
-    public String getTrade(int id) {
+    public  List<Trade> getTrade(int id) {
         return dashboardDAO.getTrade(id);
     }
 

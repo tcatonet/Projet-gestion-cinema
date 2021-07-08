@@ -38,6 +38,10 @@ public class User {
     @JoinTable(name="User_roles", joinColumns=@JoinColumn(name = "user_id"))
     private List<String> roles = new ArrayList();
 
+    @ElementCollection()
+    @JoinTable(name="User_trades", joinColumns=@JoinColumn(name = "user_id_trades"))
+    private List<String> User_trades = new ArrayList();
+
     public User(String name, String email, String password) {
 
         this.name = name;

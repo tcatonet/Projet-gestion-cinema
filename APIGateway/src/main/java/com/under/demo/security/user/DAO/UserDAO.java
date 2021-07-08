@@ -33,20 +33,27 @@ public class UserDAO {
 
 
     public String createUser(String username, String password, String email)   {
-        List<String> roles = new ArrayList();
-        roles.add("USER");
-        LOGGER.info("TESTETTSS: " + password);
-        String encodePassword = passwordEncoder.encode(password);
-        User user = new User(username, email, encodePassword);
-        userRepository.save(user);
+        String msg = "";
+        List<User> listUser = userRepository.getUserByName(username);
+        if(listUser.size() == 0) {
+            List<String> roles = new ArrayList();
+            roles.add("USER");
+            LOGGER.info("TESTETTSS: " + password);
+            String encodePassword = passwordEncoder.encode(password);
+            User user = new User(username, email, encodePassword);
+            userRepository.save(user);
 
-        User userCreate = userRepository.findByName(user.getName());
-        long id = userCreate.getId();
-        Roles role = new Roles(id, "USER");
+            User userCreate = userRepository.findByName(user.getName());
+            long id = userCreate.getId();
+            Roles role = new Roles(id, "USER");
 
-        rolesRepository.save(role);
+            rolesRepository.save(role);
 
-        String msg = "User create";
+            msg = "User create";
+        }else{
+            msg = "User exist";
+
+        }
         return msg;
     }
 

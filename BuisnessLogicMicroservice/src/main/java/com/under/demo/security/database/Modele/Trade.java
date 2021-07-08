@@ -11,7 +11,7 @@ import java.util.Objects;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Tade_model")
+@Table(name = "User_trades")
 @Data
 @Accessors(chain = true)
 public class Trade {
@@ -21,7 +21,7 @@ public class Trade {
     @Column(name="id")
     private long id;
 
-    @Column(name="dashboard_id")
+    @Column(name="user_id_trades")
     private long dashboard_id;
 
     @Column(name="open_date")

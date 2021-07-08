@@ -33,9 +33,10 @@ public class Dashboard {
     @JoinTable(name="dashboard_trade", joinColumns=@JoinColumn(name = "dashboard_id"))
     private List<Integer> trades = new ArrayList();
 
-    public Dashboard(String name, String ressource) {
+    public Dashboard(String name, String ressource, long id_user) {
         this.name = name;
         this.ressource = ressource;
+        this.id_user = id_user;
     }
 
     public Dashboard() {
