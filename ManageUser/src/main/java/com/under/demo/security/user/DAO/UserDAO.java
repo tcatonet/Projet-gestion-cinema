@@ -38,7 +38,7 @@ public class UserDAO {
         List<User> listUser = userRepository.findAllByName("username");
         String msg = "";
 
-        if(listUser.size()==0) {
+        if(listUser.size()==0 && username != "systeme") {
             List<String> roles = new ArrayList();
             roles.add("USER");
             String encodePassword = passwordEncoder.encode(password);
@@ -141,7 +141,7 @@ public class UserDAO {
 
         String msg = "";
         List<User> listAdmin = userRepository.findAllByName(name);
-        if(listAdmin.size()==0) {
+        if(listAdmin.size()==0 && name != "systeme") {
             String currentPassword = passwordEncoder.encode(password);
             User user = new User(name, email, currentPassword);
             userRepository.save(user);
