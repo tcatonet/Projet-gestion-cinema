@@ -112,7 +112,7 @@
   <distributionManagement>
     <site>
       <id>Business</id>
-      <url>scp:ubuntu@18.209.29.104:22/home/ubuntu</url>
+      <url>scp:ubuntu@localhost:22/home/ubuntu</url>
       <name>Brepo</name>
       </site>
   </distributionManagement>
