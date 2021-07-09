@@ -70,4 +70,4 @@ jobs:
 
     - name: Building gateway
       working-directory: ./APIGateway
-      run: mvn clean install- q
+      run: mvn clean install -q
