@@ -12,11 +12,11 @@
 
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.under.demo</groupId>
-    <artifactId>security</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <name>security</name>
-    <description>Demo project for Spring Boot</description>
+    
+    <artifactId>RD</artifactId>
+    <version>1.0.0</version>
+    <name>ReceiveData</name>
+    <description>ReceiveData API from gathering externals data for all API</description>
 
 
 

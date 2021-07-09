@@ -31,11 +31,11 @@
         </plugins>
     </build>
 
-    <groupId>com.under.demo</groupId>
-    <artifactId>BL</artifactId>
+
+    <artifactId>AG</artifactId>
     <version>1.0.0</version>
-    <name>BusinessLogic</name>
-    <description>Business logic api</description>
+    <name>APIGateway</name>
+    <description>api gateway for auth</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
