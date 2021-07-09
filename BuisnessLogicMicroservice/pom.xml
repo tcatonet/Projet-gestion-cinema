@@ -112,7 +112,7 @@
   <distributionManagement>
     <site>
       <id>Business</id>
-      <url>file:///home/ubuntu/</url>
+      <url>file:///home/ubuntu/BusinessRepo/</url>
       <name>Brepo</name>
       </site>
   </distributionManagement>

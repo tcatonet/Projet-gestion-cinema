@@ -117,12 +117,14 @@
 
     </dependencies>
 
-
-    <repositories>
-
-    </repositories>
-
-
+    <distributionManagement>
+      <site>
+	<id>Manage</id>
+	<url>file:///home/ubuntu/Manage/</url>
+	<name>Mrepo</name>
+      </site>
+    </distributionManagement>
+    
     <build>
         <plugins>
             <plugin>
@@ -131,5 +133,6 @@
             </plugin>
         </plugins>
     </build>
-
+    
+  
 </project>

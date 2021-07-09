@@ -122,6 +122,14 @@
 
     </repositories>
 
+    <distributionManagement>
+      <site>
+	<id>Receive</id>
+	<url>file:///home/ubuntu/Receive/</url>
+	<name>Rrepo</name>
+      </site>
+    </distributionManagement>
+    
 
     <build>
         <plugins>

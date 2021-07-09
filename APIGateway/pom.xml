@@ -4,6 +4,32 @@
     <modelVersion>4.0.0</modelVersion>
 
 
+    <distributionManagement>
+      <site>
+	<id>Gateway</id>
+	<url>file:///home/ubuntu/Gateway/</url>
+	<name>Grepo</name>
+      </site>
+    </distributionManagement>
+    
+    
+    <repositories>
+        <repository>
+            <id>spring-repo</id>
+            <name>Spring Repository</name>
+            <url>https://repo.spring.io/release</url>
+        </repository>
+    </repositories>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -12,13 +38,6 @@
 
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
-    <distributionManagement>
-        <repository>
-            <id>test</id>
-            <url> http://localhost</url>
-        </repository>
-    </distributionManagement>
 
     <groupId>com.under.demo</groupId>
     <artifactId>security</artifactId>
@@ -126,23 +145,5 @@
 
     </dependencies>
 
-
-    <repositories>
-        <repository>
-            <id>spring-repo</id>
-            <name>Spring Repository</name>
-            <url>https://repo.spring.io/release</url>
-        </repository>
-    </repositories>
-
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
