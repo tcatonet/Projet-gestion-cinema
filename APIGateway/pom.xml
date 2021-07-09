@@ -31,6 +31,12 @@
         </plugins>
     </build>
 
+    <groupId>com.under.demo</groupId>
+    <artifactId>BL</artifactId>
+    <version>1.0.0</version>
+    <name>BusinessLogic</name>
+    <description>Business logic api</description>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -38,12 +44,6 @@
 
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
-    <groupId>com.under.demo</groupId>
-    <artifactId>security</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <name>security</name>
-    <description>Demo project for Spring Boot</description>
 
 
     <properties>
