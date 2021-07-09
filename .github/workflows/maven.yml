@@ -22,6 +22,7 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     - name: Building BuisnessLogic
+      working-directory: ./BuisnessLogic
       run: mvn clean install
   build-M:
 
@@ -36,6 +37,7 @@ jobs:
         distribution: 'adopt'
     
     - name: Building ManageUser
+      working-directory: ./ManageUser
       run: mvn clean install
 
   build-R:
@@ -51,6 +53,7 @@ jobs:
         distribution: 'adopt'
         
     - name: Building ReceiveDataMarket
+      working-directory: ./RecieveDataMarket
       run: mvn clean install
 
   build-G:
@@ -66,4 +69,5 @@ jobs:
         distribution: 'adopt'
 
     - name: Building gateway
+      working-directory: ./APIGateway
       run: mvn clean install
