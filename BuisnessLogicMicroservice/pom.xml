@@ -102,19 +102,28 @@
           <version>2.8.6</version>
         </dependency>
 
-	<dependency> <!-- add support for ssh/scp -->
-          <groupId>org.apache.maven.wagon</groupId>
-          <artifactId>wagon-ssh</artifactId>
-          <version>1.0</version>
-        </dependency>
+	<dependency>
+	  <groupId>org.apache.maven.wagon</groupId>
+	  <artifactId>wagon-ssh</artifactId>
+	  <version>3.4.3</version>
+	</dependency>
   </dependencies>
 
   <distributionManagement>
     <site>
       <id>Business</id>
-      <url>dav:ubuntu@18.209.29.104/home/ubuntu/</url>
+      <url>scp:ubuntu@localhost:22/home/ubuntu</url>
       <name>Brepo</name>
       </site>
   </distributionManagement>
+  <build>
+  <extensions>
+    <!-- Enabling the use of FTP -->
+    <extension>
+      <groupId>org.apache.maven.wagon</groupId>
+       <artifactId>wagon-ssh</artifactId>
+       <version>3.4.3</version>
+    </extension>
+  </extensions>
+  </build>
 </project>
-  
