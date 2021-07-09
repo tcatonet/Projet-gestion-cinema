@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServlet;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -45,8 +44,12 @@ public class UserControlleur extends HttpServlet {
     SessionToken sessionTokenBuisnessLogic;
     private final String LOGIN_SYSTEME = "systeme";
     private final String PASSWORD_SYSTEME = "systeme";
-    private final String BASE_URL =   "http://localhost:4040";    //System.getenv("URL_MANAGE_USER"); ;
-    private final String BASE_URL2  = "http://localhost:5000";// System.getenv("URL_BUISNESS_LOGIC"); ;
+
+    @Value("${url.manageuser}")
+    private String BASE_URL;
+
+    @Value("${url.buisnesslogic}")
+    private String BASE_URL2;
 
 
     private final TokenProvider tokenProvider;
