@@ -1,16 +1,19 @@
-package com.under.demo.security.user.DAO;
+package com.under.demo.security.buisnessLogic.DAO;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.under.demo.security.database.Modele.Roles;
-import com.under.demo.security.user.Repository.RolesRepository;
-import com.under.demo.security.user.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import com.under.demo.security.database.Modele.User;
+import com.under.demo.security.buisnessLogic.Repository.RolesRepository;
+import com.under.demo.security.buisnessLogic.Repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Repository
@@ -33,28 +36,20 @@ public class UserDAO {
 
 
     public String createUser(String username, String password, String email)   {
+        List<String> roles = new ArrayList();
+        roles.add("USER");
+        LOGGER.info("TESTETTSS: " + password);
+        String encodePassword = passwordEncoder.encode(password);
+        User user = new User(username, email, encodePassword);
+        userRepository.save(user);
 
+        User userCreate = userRepository.findByName(user.getName());
+        long id = userCreate.getId();
+        Roles role = new Roles(id, "USER");
 
-        List<User> listUser = userRepository.findAllByName("username");
-        String msg = "";
+        rolesRepository.save(role);
 
-        if(listUser.size()==0 && username != "systeme") {
-            List<String> roles = new ArrayList();
-            roles.add("USER");
-            String encodePassword = passwordEncoder.encode(password);
-            User user = new User(username, email, encodePassword);
-            userRepository.save(user);
-
-            User userCreate = userRepository.findByName(user.getName());
-            long id = userCreate.getId();
-            Roles role = new Roles(id, "USER");
-
-            rolesRepository.save(role);
-
-            msg = "User create";
-        }else{
-            msg = "User exist";
-        }
+        String msg = "User create";
         return msg;
     }
 
@@ -139,81 +134,26 @@ public class UserDAO {
 
     public String createAdmin(String name, String email, String password) {
 
-        String msg = "";
-        List<User> listAdmin = userRepository.findAllByName(name);
-        if(listAdmin.size()==0 && name != "systeme") {
-            String currentPassword = passwordEncoder.encode(password);
-            User user = new User(name, email, currentPassword);
-            userRepository.save(user);
-            User userCreate = userRepository.findByName(user.getName());
-            long id = userCreate.getId();
-            Roles role = new Roles(id, "USER");
-            rolesRepository.save(role);
-            Roles role2 = new Roles(id, "ADMIN");
-            rolesRepository.save(role2);
-            msg = "admin create";
-       }else{
-            msg = "admin exist";
-        }
+        String currentPassword = passwordEncoder.encode(password);
+        User user = new User(name, email, currentPassword);
+        userRepository.save(user);
+
+        User userCreate = userRepository.findByName(user.getName());
+        long id = userCreate.getId();
+        LOGGER.info(userCreate.getPassword());
+        LOGGER.info(String.valueOf(id));
+        Roles role = new Roles(id, "USER");
+        rolesRepository.save(role);
+        Roles role2 = new Roles(id, "ADMIN");
+        rolesRepository.save(role2);
+
+        String msg = "Admin create";
         return msg;
     }
 
 
-    public boolean vefifyLeftProject()   {
-        return true;
-    }
-
-    public boolean vefifyJoinProject()   {
-        return true;
-    }
-
-    public boolean vefifyTradsmenMembershipApply()   {
-        return true;
-    }
-
-    public boolean vefifyContractorMembershipApply()   {
-        return true;
-    }
 
 
-    public boolean vefifyAvailabilityTradsmen()   {
-        return true;
-    }
-
-    public String leftProject()   {
-        String msg = "left Project|";
-        return msg;
-    }
-
-    public String joinProject()   {
-        String msg = "join Project|";
-        return msg;
-    }
-
-    public String tradsmenMembershipApply()   {
-        String msg = "tradsmen Membership Apply|";
-        return msg;
-    }
-
-    public String contractorMembershipApply()   {
-        String msg = "contractor Membership Apply|";
-        return msg;
-    }
-
-    public String processPaymentTradsmen()   {
-        String msg = "process Payment Tradsmen|";
-        return msg;
-    }
-
-    public String processPaymentContractor()   {
-        String msg = "process Payment Contractor|";
-        return msg;
-    }
-
-    public String paymentHistorique()   {
-        String msg = "payment Historique|";
-        return msg;
-    }
     public boolean checkPassword(String password, User account) {
         return account.getPassword().equals(password);
     }

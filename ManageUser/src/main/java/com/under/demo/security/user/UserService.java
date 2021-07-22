@@ -55,6 +55,73 @@ public class UserService implements IUserService {
     }
 
 
+    public String projectLeft() {
+
+        boolean available = userDAO.vefifyLeftProject();
+        boolean verifRequest = userDAO.vefifyAvailabilityTradsmen();
+
+        if(available && verifRequest){
+            String msg = "";
+            msg = userDAO.leftProject();
+            return msg;
+        }else{
+            return "error left project";
+        }
+    }
+
+    public String projectJoin() {
+
+        boolean test = userDAO.vefifyJoinProject();
+
+        if(test){
+            String msg = "";
+            msg = userDAO.joinProject();
+            return msg;
+        }else{
+            return "error join project";
+        }
+    }
+
+
+    public String tradsmenMembershipApply() {
+
+        boolean test = userDAO.vefifyTradsmenMembershipApply();
+
+        if(test){
+            String msg = "";
+            msg = userDAO.processPaymentTradsmen();
+            msg = msg + userDAO.tradsmenMembershipApply();
+            return msg;
+        }else{
+            return "error apply tradsmen membership";
+        }
+    }
+
+    public String contractorMembershipApply() {
+
+        boolean test = userDAO.vefifyContractorMembershipApply();
+
+        if(test){
+            String msg = "";
+            msg = userDAO.processPaymentContractor();
+            msg = msg + userDAO.contractorMembershipApply();
+
+            return msg;
+        }else{
+            return "error  apply contractor membership";
+        }
+    }
+
+    public String paymentHistorique() {
+
+        String msg = "";
+        msg = userDAO.paymentHistorique();
+        return msg;
+    }
+
+
+
+
 
     @Override
     public void addUser(User user) {

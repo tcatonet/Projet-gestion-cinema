@@ -14,13 +14,21 @@
 
 </head>
 <body>
-<h1>Il s'agit d'un exemple!</h1>
+<h1>Il s'agit d'un exemple de HTML!</h1>
 
 <h4 id="account_name" ></h4>
 
+<div>
+    <p id="name"></p>
+    <p id="email"></p>
+</div>
 
 
 <div>
+    <input id="update_user"
+           type="button"
+           value="Update user">
+
     <input type="text" id="update_user_name" name="name" required
            minlength="4" maxlength="50" size="50">
 </div>
@@ -52,6 +60,13 @@
     <input  id="createAdmin"
             type="button"
             value="Create Admin">
+</div>
+
+
+<div>
+    <input  id="getUsers"
+            type="button"
+            value="GetUsers">
 </div>
 
 
@@ -114,48 +129,11 @@
 
 
 <div>
-    <input  id="getUsers"
-            type="button"
-            value="Get Users">
-</div>
-
-
-
-<div>
 
     <input type="text" id="update_user_capital" name="capital" required
            minlength="4" maxlength="50" size="50">
 </div>
 
-
-
-
-<div>
-    <input  id="openTrade"
-            type="button"
-            value="openTrade">
-</div>
-
-
-
-
-
-
-
-
-
-<div>
-    <input  id="getRessource"
-            type="button"
-            value="getRessource">
-</div>
-
-
-<div>
-    <input  id="createRessource"
-            type="button"
-            value="createRessource">
-</div>
 
 
 </body>
@@ -181,7 +159,7 @@
         console.log(password)
 
         data = {
-            "name":name,
+            "username":name,
             "password":password
         }
 
@@ -387,33 +365,6 @@
 
 
 
-
-
-
-    $('#getName').click(function(){
-
-        $.ajax({
-            url : 'http://localhost:4000/user/name/get',
-            crossDomain: true,
-            type: 'POST',
-            contentType: "application/json",
-            headers: {'Authorization': 'Bearer '+key},
-
-
-            success: function(data) {
-                console.log(data)
-
-            },
-            error: function(data) {
-                console.log(data)
-            },
-        });
-
-    });
-
-
-
-
     $('#getUsers').click(function(){
 
         $.ajax({
@@ -437,6 +388,26 @@
 
 
 
+    $('#getName').click(function(){
+
+        $.ajax({
+            url : 'http://localhost:4000/user/name/get',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
 
 
     $('#updatePassword').click(function(){
@@ -520,225 +491,8 @@
         });
 
     });
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-$('#openTrade').click(function(){
-    
-	data = {
-            "Id" : 1
-        }
-
-        json_data = JSON.stringify(data);
-        
-        $.ajax({
-            url : 'http://localhost:4000/dashboard/trade/open',
-            crossDomain: true,
-            type: 'POST',
-            data:json_data,
-            contentType: "application/json",
-            headers: {'Authorization': 'Bearer '+key},
-
-
-            success: function(data) {
-                console.log(data)
-
-            },
-            error: function(data) {
-                console.log(data)
-            },
-        });
-
-    });
 
 
 
-
-$('#closeTrade').click(function(){
-    
-	data = {
-            "Id" : 50
-        }
-
-	
-        json_data = JSON.stringify(data);
-        
-        $.ajax({
-            url : 'http://localhost:4000/dashboard/trade/close',
-            crossDomain: true,
-            type: 'POST',
-            data:json_data,
-            contentType: "application/json",
-            headers: {'Authorization': 'Bearer '+key},
-
-
-            success: function(data) {
-                console.log(data)
-
-            },
-            error: function(data) {
-                console.log(data)
-            },
-        });
-
-    });
-
-
-$('#getTrade').click(function(){
-    
-	data = {
-            "Id" : 1
-        }
-
-        json_data = JSON.stringify(data);
-        
-        $.ajax({
-            url : 'http://localhost:4000/dashboard/trade/get',
-            crossDomain: true,
-            type: 'POST',
-            data:json_data,
-            contentType: "application/json",
-            headers: {'Authorization': 'Bearer '+key},
-
-
-            success: function(data) {
-                console.log(data)
-
-            },
-            error: function(data) {
-                console.log(data)
-            },
-        });
-
-    });
-
-
-
-
-
-$('#createDashboard').click(function(){
-    
-	data = {
-            "name" : "namecreateDashboard",
-            "ressource" : "ressourcecreateDashboard",
-            "userName" : "userNamecreateDashboard"
-        }
-
-        json_data = JSON.stringify(data);
-        
-        $.ajax({
-            url : 'http://localhost:4000/dashboard/create',
-            crossDomain: true,
-            type: 'POST',
-            data:json_data,
-            contentType: "application/json",
-            headers: {'Authorization': 'Bearer '+key},
-
-
-            success: function(data) {
-                console.log(data)
-
-            },
-            error: function(data) {
-                console.log(data)
-            },
-        });
-
-    });
-
-
-
-
-
-
-$('#getDashboard').click(function(){
-    
-        
-        $.ajax({
-            url : 'http://localhost:4000/dashboard/get',
-            crossDomain: true,
-            type: 'POST',
-            contentType: "application/json",
-            headers: {'Authorization': 'Bearer '+key},
-
-
-            success: function(data) {
-                console.log(data)
-
-            },
-            error: function(data) {
-                console.log(data)
-            },
-        });
-
-    });
-
-
-$('#getRessource').click(function(){
-
-
-
-        
-        $.ajax({
-            url : 'http://localhost:4000/ressource/price/get',
-            crossDomain: true,
-            type: 'POST',
-            contentType: "application/json",
-            headers: {'Authorization': 'Bearer '+key},
-
-
-            success: function(data) {
-                console.log(data)
-
-            },
-            error: function(data) {
-                console.log(data)
-            },
-        });
-
-    });
-    
-    
-
-$('#createRessource').click(function(){
-    
-	data = {
-            "name" : "test"
-        }
-
-        json_data = JSON.stringify(data);
-        
-        $.ajax({
-            url : 'http://localhost:4000/admin/ressource/create',
-            crossDomain: true,
-            type: 'POST',
-            data:json_data,
-            contentType: "application/json",
-            headers: {'Authorization': 'Bearer '+key},
-
-
-            success: function(data) {
-                console.log(data)
-
-            },
-            error: function(data) {
-                console.log(data)
-            },
-        });
-
-    });
-    
 
 </script>
