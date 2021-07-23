@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/dashboard")
+@RequestMapping("/market")
 public class DashboardControlleur {
 
     public DashboardControlleur(DashboardService dashboardService) {

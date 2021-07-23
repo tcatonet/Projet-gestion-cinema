@@ -31,58 +31,6 @@ public class UserControlleur {
 
 
 
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/capital/deposit")
-    public ResponseEntity depositUserCapital(@RequestBody UpdateCapitalDTO updateCapitalDTO) {
-
-
-
-        String response = userService.depositUserCapital(updateCapitalDTO.getName(), updateCapitalDTO.getAmount());
-
-        LOGGER.info(response);
-
-        HttpHeaders request_ = new HttpHeaders();
-        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
-        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
-        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
-    }
-
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/capital/withdrawal")
-    public ResponseEntity withdrawalUserCapital(@RequestBody UpdateCapitalDTO updateCapitalDTO) {
-
-        String response = userService.withdrawalUserCapital(updateCapitalDTO.getName(), updateCapitalDTO.getAmount());
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
-        HttpHeaders request_ = new HttpHeaders();
-        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
-        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
-
-    }
-
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/capital/get")
-    public ResponseEntity getUserCapital(@RequestBody UserDTO userDTO) {
-
-
-        float response = userService.getUserCapital(userDTO.getName());
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", String.valueOf(response));
-        HttpHeaders request_ = new HttpHeaders();
-        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
-        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
-    }
-
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/name/get")
     public ResponseEntity getUserName(@RequestBody UserDTO userDTO) {

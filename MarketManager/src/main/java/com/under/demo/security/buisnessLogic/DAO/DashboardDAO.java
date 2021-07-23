@@ -115,7 +115,7 @@ public class DashboardDAO {
     }
 
     public String scearchProject(String project_needs)   {
-        String msg = "list candidate|";
+        String msg = "scearch Project |";
         return msg;
     }
 

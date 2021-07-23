@@ -40,7 +40,7 @@ public class AuthenticationController extends HttpServlet{
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
 
-
+        LOGGER.info("OKI");
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getName(), loginDTO.getPassword());
 
         Authentication authentication = authenticationManager.getObject().authenticate(authenticationToken);

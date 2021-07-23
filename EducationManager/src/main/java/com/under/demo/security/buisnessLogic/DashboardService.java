@@ -21,7 +21,7 @@ public class DashboardService implements IUserService {
 
     public String subscribeFormation() {
 
-        boolean test = dashboardDAO.vefifySubscribeFormation();
+        boolean test = dashboardDAO.verifySubscribeFormation();
 
         if(test){
             String msg = "";
@@ -34,9 +34,23 @@ public class DashboardService implements IUserService {
 
     }
 
+
+    public String addFormation() {
+
+        boolean test = dashboardDAO.verifyAddFormation();
+
+        if(test){
+            String msg = "";
+            msg = dashboardDAO.addFormation();
+            return msg;
+        }else{
+            return "error quit formation";
+        }
+    }
+
     public String quitFormation() {
 
-        boolean test = dashboardDAO.vefifyQuitFormation();
+        boolean test = dashboardDAO.verifyQuitFormation();
 
         if(test){
             String msg = "";
@@ -50,7 +64,7 @@ public class DashboardService implements IUserService {
 
     public String findFromation() {
 
-        boolean test = dashboardDAO.vefifyFindFromation();
+        boolean test = dashboardDAO.verifyFindFromation();
 
         if(test){
             String msg = "";
@@ -63,7 +77,7 @@ public class DashboardService implements IUserService {
 
     public String closeFromation() {
 
-        boolean test = dashboardDAO.vefifyCloseFromation();
+        boolean test = dashboardDAO.verifyCloseFromation();
 
         if(test){
             String msg = "";

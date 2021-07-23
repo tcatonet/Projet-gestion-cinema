@@ -97,7 +97,8 @@ public class DashboardService implements IUserService {
 
             tradsmen_skills = dashboardDAO.analyseTradsmenSkills();
             list_candidate = dashboardDAO.scearchProject(tradsmen_skills);
-            msg = dashboardDAO.assignBestProject(list_candidate);
+            msg = dashboardDAO.assignBestCandidate(list_candidate);
+
 
             return msg;
         }else{
@@ -116,7 +117,7 @@ public class DashboardService implements IUserService {
 
             project_needs = dashboardDAO.analyseProjectNeed();
             list_candidate = dashboardDAO.scearchCandidate(project_needs);
-            msg = dashboardDAO.assignBestCandidate(list_candidate);
+            msg = dashboardDAO.assignBestProject(list_candidate);
 
 
             return msg;
