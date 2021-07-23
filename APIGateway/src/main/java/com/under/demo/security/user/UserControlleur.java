@@ -63,6 +63,7 @@ public class UserControlleur extends HttpServlet {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginDTO loginDTO) throws JSONException {
 
+
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getName(), loginDTO.getPassword());
         Authentication authentication = authenticationManager.getObject().authenticate(authenticationToken);
         String tokenUser = tokenProvider.createToken(authentication);

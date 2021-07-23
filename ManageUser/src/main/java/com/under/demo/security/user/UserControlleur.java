@@ -145,4 +145,68 @@ public class UserControlleur {
     }
 
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/project/join")
+    public ResponseEntity projectJoin() {
+
+        String response = userService.projectJoin();
+        LOGGER.info(response);
+
+        HttpHeaders request_ = new HttpHeaders();
+        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("msg", response);
+        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
+        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/project/left")
+    public ResponseEntity projectLeft() {
+
+        String response = userService.projectLeft();
+        LOGGER.info(response);
+
+        HttpHeaders request_ = new HttpHeaders();
+        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("msg", response);
+        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
+        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
+    }
+
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/contractorMembership/apply")
+    public ResponseEntity contractorMembershipApply() {
+
+        String response = userService.contractorMembershipApply();
+        response = response + userService.tradsmenMembershipApply();
+
+        LOGGER.info(response);
+
+        HttpHeaders request_ = new HttpHeaders();
+        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("msg", response);
+        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
+        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/paymentHistorique/get")
+    public ResponseEntity paymentHistorique() {
+
+        String response = userService.paymentHistorique();
+
+        LOGGER.info(response);
+
+        HttpHeaders request_ = new HttpHeaders();
+        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("msg", response);
+        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
+        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
+    }
+
 }

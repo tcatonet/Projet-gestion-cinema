@@ -1,9 +1,8 @@
 port des micro service:
 
 ManageUserMicroservice: 4000
-BusinessLogicMicroservice:5000
-RecieveDataMicroservice: 6000
-InfosAppMicroservice:7000
+MarketManager:5000
+EducationManager:7000
 
 
 
