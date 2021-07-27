@@ -1,4 +1,5 @@
 package com.under.demo.security.user;
+import com.under.demo.security.kafka.KafkaSender;
 import org.springframework.beans.factory.annotation.Value;
 import com.under.demo.security.login.LoginDTO;
 import com.under.demo.security.security.TokenProvider;
@@ -26,8 +27,9 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequestMapping()
 public class UserControlleur extends HttpServlet {
 
-    public UserControlleur(UserService userService, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManager) {
+    public UserControlleur(UserService userService, KafkaSender kafkaSender, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManager) {
         this.userService = userService;
+        this.kafkaSender = kafkaSender;
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
     }
@@ -38,6 +40,8 @@ public class UserControlleur extends HttpServlet {
     }
 
     private final UserService userService;
+    private final KafkaSender kafkaSender;
+
     private static final Logger LOGGER = Logger.getLogger("LOG: ");
 
     SessionToken sessionTokenManageUser;
@@ -67,6 +71,7 @@ public class UserControlleur extends HttpServlet {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginDTO loginDTO) throws JSONException {
+        String requestJson = "{\"name\":\""+LOGIN_SYSTEME+"\",\"password\":\""+PASSWORD_SYSTEME+"\" }";
 
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getName(), loginDTO.getPassword());
@@ -77,7 +82,7 @@ public class UserControlleur extends HttpServlet {
         String endpoint = "/login";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String requestJson = "{\"name\":\""+LOGIN_SYSTEME+"\",\"password\":\""+PASSWORD_SYSTEME+"\" }";
+        requestJson = "{\"name\":\""+LOGIN_SYSTEME+"\",\"password\":\""+PASSWORD_SYSTEME+"\" }";
         HttpEntity<String> requestToSend = new HttpEntity<String>(requestJson, headers);
         ResponseEntity<String> message = restTemplate.postForEntity( BASE_URL+endpoint, requestToSend , String.class );
 
@@ -117,7 +122,7 @@ public class UserControlleur extends HttpServlet {
         headers.setContentType(MediaType.APPLICATION_JSON);
         requestJson = "{\"name\":\""+LOGIN_SYSTEME+"\",\"password\":\""+PASSWORD_SYSTEME+"\" }";
         requestToSend = new HttpEntity<String>(requestJson, headers);
-        message = restTemplate.postForEntity( BASE_URL+endpoint, requestToSend , String.class );
+        message = restTemplate.postForEntity( BASE_URL3+endpoint, requestToSend , String.class );
 
         body = String.valueOf(message.getBody());
         jsonObject = new JSONObject(body);
@@ -162,10 +167,14 @@ public class UserControlleur extends HttpServlet {
         if ("none".equalsIgnoreCase(request.getPassword())) {
             throw new IllegalNameException("Illegal name for none");
         }
-        String response = userService.createUser(request.getName(), request.getPassword(), request.getEmail());
+        String requestJson = "{\"name\":\""+request.getName()+"\",\"password\":\""+request.getPassword()+"\",\"email\":\""+request.getEmail()+"\" }";
+
+        kafkaSender.sendMessageManageUser(requestJson);
+
+       // String response = userService.createUser(request.getName(), request.getPassword(), request.getEmail());
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
+        map.add("msg", "user create");
         HttpHeaders request_ = new HttpHeaders();
         request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);

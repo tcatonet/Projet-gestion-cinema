@@ -41,6 +41,9 @@ public class AuthenticationController extends HttpServlet{
     public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
 
         LOGGER.info("OKI");
+        LOGGER.info(loginDTO.getName());
+        LOGGER.info(loginDTO.getPassword());
+
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getName(), loginDTO.getPassword());
 
         Authentication authentication = authenticationManager.getObject().authenticate(authenticationToken);
@@ -88,4 +91,7 @@ public class AuthenticationController extends HttpServlet{
     }
 
 
+
+
 }
+

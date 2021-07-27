@@ -33,14 +33,12 @@ public class UserDAO {
 
 
     public String createUser(String username, String password, String email)   {
-
-
-        List<User> listUser = userRepository.findAllByName("username");
         String msg = "";
-
-        if(listUser.size()==0 && username != "systeme") {
+        List<User> listUser = userRepository.findAllByName(username);
+        if(listUser.size() == 0) {
             List<String> roles = new ArrayList();
             roles.add("USER");
+            LOGGER.info("TESTETTSS: " + password);
             String encodePassword = passwordEncoder.encode(password);
             User user = new User(username, email, encodePassword);
             userRepository.save(user);
@@ -54,6 +52,7 @@ public class UserDAO {
             msg = "User create";
         }else{
             msg = "User exist";
+
         }
         return msg;
     }
