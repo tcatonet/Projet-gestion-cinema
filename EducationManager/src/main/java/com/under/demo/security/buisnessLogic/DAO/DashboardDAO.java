@@ -28,16 +28,19 @@ public class DashboardDAO {
         return userRepository.findByName(username);
     }
 
-    public boolean vefifySubscribeFormation()   {
+    public boolean verifySubscribeFormation()   {
         return true;
     }
-    public boolean vefifyQuitFormation()   {
+    public boolean verifyQuitFormation()   {
         return true;
     }
-    public boolean vefifyFindFromation()   {
+    public boolean verifyFindFromation()   {
         return true;
     }
-    public boolean vefifyCloseFromation()   {
+    public boolean verifyCloseFromation()   {
+        return true;
+    }
+    public boolean verifyAddFormation()   {
         return true;
     }
 
@@ -72,4 +75,8 @@ public class DashboardDAO {
         return msg;
     }
 
+    public String addFormation()   {
+        String msg = "add Formation|";
+        return msg;
+    }
 }

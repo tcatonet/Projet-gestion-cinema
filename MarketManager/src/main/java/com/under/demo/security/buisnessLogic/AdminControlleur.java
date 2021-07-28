@@ -8,10 +8,10 @@ import java.util.logging.Logger;
 @RequestMapping()
 public class AdminControlleur {
 
-    public AdminControlleur(DashboardService dashboardService) {
+    public AdminControlleur(MarketService dashboardService) {
         this.dashboardService = dashboardService;
     }
-    private final DashboardService dashboardService;
+    private final MarketService dashboardService;
     private static final Logger LOGGER = Logger.getLogger("LOG: ");
 
 

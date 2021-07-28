@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Ma première page HTML</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+</head>
+<body>
+<h1>Il s'agit d'un exemple!</h1>
+
+<h4 id="account_name" ></h4>
+
+
+
+<div>
+    <input type="text" id="update_user_name" name="name" required
+           minlength="4" maxlength="50" size="50">
+</div>
+
+
+<div>
+
+    <input type="text" id="update_user_password" name="email" required
+           minlength="4" maxlength="50" size="50">
+</div>
+
+
+<div>
+
+    <input type="text" id="update_user_password" name="password" required
+           minlength="4" maxlength="50" size="50">
+</div>
+
+
+<div>
+    <input  id="createUser"
+            type="button"
+            value="Create User">
+</div>
+
+
+
+<di
+
+
+<div>
+    <input  id="connexionUser"
+            type="button"
+            value="Connexion">
+</div>
+
+
+
+<div>
+    <input  id="getName"
+            type="button"
+            value="get Name">
+</div>
+
+
+<div>
+    <input  id="updatePassword"
+            type="button"
+            value="update Password">
+</div>
+
+
+<div>
+    <input  id="getEmail"
+            type="button"
+            value="get Email">
+</div>
+
+
+<div>
+    <input  id="updateEmail"
+            type="button"
+            value="update Email">
+</div>
+
+
+
+
+
+<div>
+    <input  id="tradsmenMatch"
+            type="button"
+            value="tradsmen Match">
+</div>
+
+<div>
+    <input  id="projectActive"
+            type="button"
+            value="project Active">
+</div>
+
+
+<div>
+    <input  id="billRateUpdate"
+            type="button"
+            value="bill Rate Update">
+</div>
+
+
+<div>
+    <input  id="dateUpdate"
+            type="button"
+            value="date Update">
+</div>
+
+
+<div>
+    <input  id="projectClose"
+            type="button"
+            value="project Close">
+</div>
+
+
+<div>
+    <input  id="projectCreate"
+            type="button"
+            value="project Create">
+</div>
+
+<div>
+    <input  id="contractorMembership"
+            type="button"
+            value="contractor Membership">
+</div>
+
+
+<div>
+    <input  id="getHistoriquePayment"
+            type="button"
+            value="get Historique Payment">
+</div>
+
+
+<div>
+
+    <input type="text" id="update_user_capital" name="capital" required
+           minlength="4" maxlength="50" size="50">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+<script type="text/javascript">
+
+    key="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTYyMDMyNzEzOH0.dbUt2Oo3zBqTtzV2UUNoMKw_OkN2bjdsmgLtLV_yvl2k83iu4U1pvkV1qlVGern3wx-ZSF-MzArcpSKgC40tXA"
+    username=""
+    userpassword=""
+
+
+
+    $('#connexionUser').click(function(){
+
+
+        var name =$('input[name=name]').val();
+        var password = $('input[name=password]').val()
+
+        console.log(name)
+        console.log(password)
+
+        data = {
+            "name":name,
+            "password":password
+        }
+
+        json_data = JSON.stringify(data);
+
+        $.ajax({
+            url : 'http://localhost:4000/login',
+            type: 'POST',
+            crossDomain: true,
+            data:json_data,
+            dataType : 'text',
+            contentType: "application/json",
+
+            success: function(data) {
+                json_data = JSON.parse(data);
+                key=json_data["body"]["token"][0]
+
+                console.log(key);
+
+            },
+            error: function(data) {
+                console.log("FALSE");
+
+
+            },
+        });
+
+    });
+
+
+    
+ 
+
+
+
+
+
+    $('#createUser').click(function(){
+
+        data = {
+            "name" : $('input[name=name]').val(),
+            "email" : $('input[name=email]').val(),
+            "password" : $('input[name=password]').val()
+        }
+
+        json_data = JSON.stringify(data);
+
+        $.ajax({
+            url : 'http://localhost:4000/create',
+            crossDomain: true,
+            type: 'POST',
+            data:json_data,
+            contentType: "application/json",
+
+            success: function(data) {
+                message=data["body"]["msg"][0]
+
+                console.log(message)
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+    $('#getName').click(function(){
+
+        $.ajax({
+            url : 'http://localhost:4000/user/name/get',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+
+
+
+
+
+
+    $('#updatePassword').click(function(){
+    
+	data = {
+            "password" : $('input[name=password]').val()
+        }
+
+        json_data = JSON.stringify(data);
+        $.ajax({
+            url : 'http://localhost:4000/user/password/update',
+            crossDomain: true,
+            type: 'POST',
+            data:json_data,
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+    
+    
+    
+    $('#updateEmail').click(function(){
+    
+	data = {
+            "email" : $('input[name=email]').val()
+        }
+
+        json_data = JSON.stringify(data);
+        
+        $.ajax({
+            url : 'http://localhost:4000/user/email/update',
+            crossDomain: true,
+            type: 'POST',
+            data:json_data,
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+    
+    
+    
+    $('#getEmail').click(function(){
+    
+
+
+        $.ajax({
+            url : 'http://localhost:4000/user/email/get',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+    
+    
+    
+   
+    
+    
+        $('#tradsmenMatch').click(function(){
+    
+
+
+        $.ajax({
+            url : 'http://localhost:4000/user/project/tradsmen/match',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+    
+        $('#projectActive').click(function(){
+    
+
+
+        $.ajax({
+            url : 'http://localhost:4000/user/project/active',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+    
+    
+        $('#billRateUpdate').click(function(){
+    
+
+
+        $.ajax({
+            url : 'http://localhost:4000/user/project/billRate/update',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+    
+    
+        $('#dateUpdate').click(function(){
+    
+
+
+        $.ajax({
+            url : 'http://localhost:4000/user/project/date/update',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+    
+    
+        $('#projectClose').click(function(){
+    
+
+
+        $.ajax({
+            url : 'http://localhost:4000/user/project/close/request',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+    
+    
+        $('#projectCreate').click(function(){
+    
+
+
+        $.ajax({
+            url : 'http://localhost:4000/user/project/create/request',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+    
+    
+        $('#contractorMembership').click(function(){
+    
+
+
+        $.ajax({
+            url : 'http://localhost:4000/user/contractorMembership/apply',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+    
+    
+            $('#getHistoriquePayment').click(function(){
+    
+
+
+        $.ajax({
+            url : 'http://localhost:4000/user/paymentHistorique/get',
+            crossDomain: true,
+            type: 'POST',
+            contentType: "application/json",
+            headers: {'Authorization': 'Bearer '+key},
+
+
+            success: function(data) {
+                console.log(data)
+
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        });
+
+    });
+    
+    
+    
+    
+
+
+    
+
+</script>

@@ -16,22 +16,20 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/formation")
+@RequestMapping("/user")
 public class DashboardControlleur {
 
     public DashboardControlleur(DashboardService dashboardService) {
         this.dashboardService = dashboardService;
     }
 
-
     private final DashboardService dashboardService;
     private static final Logger LOGGER = Logger.getLogger("LOG: ");
 
 
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/formation/subscribe")
-    public ResponseEntity projectRequestCreate() {
+    public ResponseEntity formationSubscribe() {
 
         String response = dashboardService.subscribeFormation();
         LOGGER.info(response);
@@ -47,7 +45,7 @@ public class DashboardControlleur {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/formation/quit")
-    public ResponseEntity projectRequestClose() {
+    public ResponseEntity formationQuit() {
 
         String response = dashboardService.quitFormation();
         LOGGER.info(response);
@@ -62,7 +60,7 @@ public class DashboardControlleur {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/formation/find")
-    public ResponseEntity projectUpdateDate() {
+    public ResponseEntity formationFind() {
 
         String response = dashboardService.findFromation();
         LOGGER.info(response);
@@ -77,8 +75,25 @@ public class DashboardControlleur {
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/formation/add")
+    public ResponseEntity formationAdd() {
+
+        String response = dashboardService.addFormation();
+        LOGGER.info(response);
+
+        HttpHeaders request_ = new HttpHeaders();
+        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("msg", response);
+        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
+        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
+    }
+
+
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/formation/close")
-    public ResponseEntity projectUpdateBillRate() {
+    public ResponseEntity formationClose() {
 
         String response = dashboardService.closeFromation();
         LOGGER.info(response);
@@ -94,7 +109,7 @@ public class DashboardControlleur {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/certification/give")
-    public ResponseEntity giveCertification() {
+    public ResponseEntity certificationGive() {
 
         String response = dashboardService.giveCertification();
         LOGGER.info(response);

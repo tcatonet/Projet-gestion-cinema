@@ -1,118 +1,31 @@
-package com.under.demo.security.user;
+package com.under.demo.security.buisnessLogic;
 
-import com.under.demo.security.user.DTO.*;
-import org.jdom.IllegalNameException;
 import org.springframework.http.*;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/user")
-public class UserControlleur {
+@RequestMapping("/market")
+public class MarketControlleur {
 
-    public UserControlleur(UserService userService) {
-        this.userService = userService;
+    public MarketControlleur(MarketService marketService) {
+        this.marketService = marketService;
     }
 
-    @GetMapping
-    public ResponseEntity hello() {
-        return ResponseEntity.ok("Hello world");
-    }
 
-    private final UserService userService;
+    private MarketService marketService;
     private static final Logger LOGGER = Logger.getLogger("LOG: ");
 
 
 
-
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/name/get")
-    public ResponseEntity getUserName(@RequestBody UserDTO userDTO) {
+    @PostMapping("/project/create/request")
+    public ResponseEntity projectRequestCreate() {
 
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", userDTO.getName());
-        HttpHeaders request_ = new HttpHeaders();
-        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
-        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/password/update")
-    public ResponseEntity updateUserPassword(@RequestBody UpdatePasswordDTO updatePasswordDTO) {
-        if ("none".equalsIgnoreCase(updatePasswordDTO.getPassword())) {
-            throw new IllegalNameException("Illegal name for none");
-        }
-
-        String response = userService.updateUserPassword(updatePasswordDTO.getName(), updatePasswordDTO.getPassword());
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
-        HttpHeaders request_ = new HttpHeaders();
-        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
-        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/email/get")
-    public ResponseEntity getUserEmail(@RequestBody UserDTO userDTO) {
-
-        String response = userService.getUserEmail(userDTO.getName());
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
-        HttpHeaders request_ = new HttpHeaders();
-        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
-        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/email/update")
-    public ResponseEntity updateUserEmail(@RequestBody UpdateEmailDTO updateEmailDTO) {
-        if ("none".equalsIgnoreCase(updateEmailDTO.getEmail())) {
-            throw new IllegalNameException("Illegal name for none");
-        }
-
-        String response = userService.updateUserEmail(updateEmailDTO.getName(), updateEmailDTO.getEmail());
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
-        HttpHeaders request_ = new HttpHeaders();
-        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
-        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
-    }
-
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/project/join")
-    public ResponseEntity projectJoin() {
-
-        String response = userService.projectJoin();
-        LOGGER.info(response);
-
-        HttpHeaders request_ = new HttpHeaders();
-        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("msg", response);
-        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
-        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/project/left")
-    public ResponseEntity projectLeft() {
-
-        String response = userService.projectLeft();
+        String response = marketService.projectCreate();
         LOGGER.info(response);
 
         HttpHeaders request_ = new HttpHeaders();
@@ -125,12 +38,10 @@ public class UserControlleur {
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/contractorMembership/apply")
-    public ResponseEntity contractorMembershipApply() {
+    @PostMapping("/project/close/request")
+    public ResponseEntity projectRequestClose() {
 
-        String response = userService.contractorMembershipApply();
-        response = response + userService.tradsmenMembershipApply();
-
+        String response = marketService.projectClose();
         LOGGER.info(response);
 
         HttpHeaders request_ = new HttpHeaders();
@@ -142,11 +53,10 @@ public class UserControlleur {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/paymentHistorique/get")
-    public ResponseEntity paymentHistorique() {
+    @PostMapping("/project/date/update")
+    public ResponseEntity projectUpdateDate() {
 
-        String response = userService.paymentHistorique();
-
+        String response = marketService.addProjectDuration();
         LOGGER.info(response);
 
         HttpHeaders request_ = new HttpHeaders();
@@ -157,4 +67,65 @@ public class UserControlleur {
         return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
     }
 
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/project/billRate/update")
+    public ResponseEntity projectUpdateBillRate() {
+
+        String response = marketService.updateBillRate();
+        LOGGER.info(response);
+
+        HttpHeaders request_ = new HttpHeaders();
+        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("msg", response);
+        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
+        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/project/active")
+    public ResponseEntity projectActive() {
+
+        String response = marketService.projectActive();
+        LOGGER.info(response);
+
+        HttpHeaders request_ = new HttpHeaders();
+        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("msg", response);
+        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
+        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
+    }
+
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/project/tradsmen/match")
+    public ResponseEntity projectTradsmenMatch() {
+
+        String response = marketService.projectTradsmenMatch();
+        LOGGER.info(response);
+
+        HttpHeaders request_ = new HttpHeaders();
+        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("msg", response);
+        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
+        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/project/match")
+    public ResponseEntity projectMatch() {
+
+        String response = marketService.projectMatch();
+        LOGGER.info(response);
+
+        HttpHeaders request_ = new HttpHeaders();
+        request_.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("msg", response);
+        HttpEntity<MultiValueMap<String, String>> requeteHttp = new HttpEntity<MultiValueMap<String, String>>(map,request_);
+        return new ResponseEntity<>(requeteHttp, HttpStatus.OK);
+    }
 }
