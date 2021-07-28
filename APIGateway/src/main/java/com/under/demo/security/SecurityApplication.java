@@ -18,5 +18,4 @@ public class SecurityApplication {
         return new RestTemplate();
     }
 
-
 }
